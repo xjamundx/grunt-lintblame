@@ -1,0 +1,43 @@
+{
+  "name": "grunt-lintblame",
+  "description": "Hook git blame into jshint",
+  "version": "0.1.0",
+  "homepage": "",
+  "author": {
+    "name": "Jamund Ferguson",
+    "email": "jamund@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:xjamundx/grunt-lintblame.git"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "grunt.js",
+  "bin": "bin/grunt-lintblame",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "grunt": "~0.3.9",
+    "gitblame": "0.1.0",
+    "async": "0.1.22",
+    "jshint": "0.7.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.9"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}

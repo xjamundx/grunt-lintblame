@@ -1,0 +1,4 @@
+if (fun)
+{
+  party hard"";
+}
