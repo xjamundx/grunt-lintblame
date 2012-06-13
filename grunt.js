@@ -3,13 +3,10 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     test: {
-      files: ['test/**/*.js']
-    },
-    lint: {
-      files: ['grunt.js', 'tasks/**/*.js', 'test/*.js']
+      files: ['test/*.js']
     },
     lintblame: {
-      files: ['grunt.js', 'tasks/**/*.js', 'test/*.js']
+      files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
     },
     watch: {
       files: '<config:lint.files>',

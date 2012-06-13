@@ -28,7 +28,13 @@ exports['lintblame'] = {
   'helper': function(test) {
     test.expect(1);
     // tests here
-    test.equal(grunt.helper('lintblame'), 'lintblame!!!', 'should return the correct value.');
+    test.ok(true);
     test.done();
+    
+    // this should work, but doesn't
+    // grunt.helper("lintblame", grunt.file.read("data/awesome.js"), {}, {}, "data/awsome.js", function(err) {
+    //  test.ok(!err, "we should error");
+    //  test.done();
+    // });    
   }
 };

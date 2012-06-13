@@ -49,8 +49,10 @@ module.exports = function(grunt) {
     var len = files.length;
     var errors = 0;
     async.forEachSeries(files, function(filepath, next) {
-      lintblame(grunt.file.read(filepath), options, globals, filepath, function(err) {
-        if (err) errors++;
+      grunt.helper("lintblame", grunt.file.read(filepath), options, globals, filepath, function(err) {
+        if (err) {
+          errors++;
+        }
         next();
       });
     }, function(err) {
@@ -82,7 +84,7 @@ module.exports = function(grunt) {
   var tabregex = /\t/g;
 
   // Lint source code with JSHint.
-  function lintblame(src, options, globals, extraMsg, cb) {
+  grunt.task.registerHelper('lintblame', function(src, options, globals, extraMsg, cb) {
     // JSHint sometimes modifies objects you pass in, so clone them.
     options = grunt.utils._.clone(options);
     globals = grunt.utils._.clone(globals);
@@ -164,6 +166,6 @@ module.exports = function(grunt) {
         setTimeout(function() { cb(new Error("You had some problems")); }, 50);
       });
     }
-  }
+  });
 
 };
