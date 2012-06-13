@@ -11,11 +11,26 @@ Then add this line to your project's `grunt.js` gruntfile:
 grunt.loadNpmTasks('grunt-lintblame');
 ```
 
+At the top change your `lint: {` to say `lintblame: {`
+
 [grunt]: https://github.com/cowboy/grunt
 [getting_started]: https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
 
 ## Documentation
-_(Coming soon)_
+
+Use exactly as you would the standard lint plugin except with the name `lintblame`. It uses the standard `jshint` options object as well.
+
+    lintblame: {
+      all: ['grunt.js', 'htdocs/js/v3/widgets/**/*.js']
+    },
+    jshint: {
+      options: {
+        curly: false,
+        eqeqeq: false,
+        immed: false,
+        browser: true
+      }
+    }
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
