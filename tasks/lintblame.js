@@ -119,6 +119,12 @@ module.exports = function(grunt) {
     } else {
       gitblame(extraMsg, function(err, blameLines) {
         
+        // handle a few error cases better
+        if (err) {
+            grunt.log.error(err);
+        }
+        blameLines = blameLines || [];
+
         // Something went wrong.
         grunt.verbose.or.write(msg);
         grunt.log.error();
