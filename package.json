@@ -1,7 +1,7 @@
 {
   "name": "grunt-lintblame",
   "description": "Hook git blame into jshint",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "",
   "author": {
     "name": "Jamund Ferguson",
