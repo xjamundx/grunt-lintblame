@@ -10,6 +10,8 @@ var gitblame = require('gitblame');
 var async = require('async');
  
 module.exports = function(grunt) {
+  
+  'use strict';
 
   // External libs.
   var jshint = require('jshint').JSHINT;
@@ -18,50 +20,53 @@ module.exports = function(grunt) {
   // TASKS
   // ==========================================================================
 
-  grunt.registerMultiTask('lintblame', 'Validate files with JSHint and git blame.', function() {
+  grunt.registerTask('lintblame', 'Validate files with JSHint and git blame.', function() {
     // Get flags and globals, allowing target-specific options and globals to
     // override the default options and globals.
-    var options, globals, tmp;
     var done = this.async();
 
-    tmp = grunt.config(['jshint', this.target, 'options']);
-    if (typeof tmp === 'object') {
-      grunt.verbose.writeln('Using "' + this.target + '" JSHint options.');
-      options = tmp;
-    } else {
-      grunt.verbose.writeln('Using master JSHint options.');
-      options = grunt.config('jshint.options');
-    }
-    grunt.verbose.writeflags(options, 'Options');
+    var tmp = grunt.config(['jshint']);
 
-    tmp = grunt.config(['jshint', this.target, 'globals']);
-    if (typeof tmp === 'object') {
-      grunt.verbose.writeln('Using "' + this.target + '" JSHint globals.');
-      globals = tmp;
-    } else {
-      grunt.verbose.writeln('Using master JSHint globals.');
-      globals = grunt.config('jshint.globals');
+    // Merge task-specific and/or target-specific options with these defaults.
+    var options = tmp.options;
+
+    // Read JSHint options from a specified jshintrc file.
+    if (options.jshintrc) {
+      options = grunt.file.readJSON(options.jshintrc);
     }
-    grunt.verbose.writeflags(globals, 'Globals');
+    // If globals weren't specified, initialize them as an empty object.
+    if (!options.globals) {
+      options.globals = {};
+    }
+    // Convert deprecated "predef" array into globals.
+    if (options.predef) {
+      options.predef.forEach(function(key) {
+        options.globals[key] = true;
+      });
+      delete options.predef;
+    }
+    // Extract globals from options.
+    var globals = options.globals;
+    delete options.globals;
+
+    grunt.verbose.writeflags(options, 'JSHint options');
+    grunt.verbose.writeflags(globals, 'JSHint globals');
 
     // Lint specified files.
-    var files = grunt.file.expandFiles(this.file.src);
-    var len = files.length;
+    var files = grunt.file.expand(tmp.files);
     var errors = 0;
     async.forEachSeries(files, function(filepath, next) {
-      grunt.helper("lintblame", grunt.file.read(filepath), options, globals, filepath, function(err) {
-        if (err) {
-          errors++;
-        }
-        next();
-      });
+        lintblame(grunt.file.read(filepath), options, globals, filepath, function(err) {
+            if (err) {
+                errors++;
+            }
+            next();
+        });
     }, function(err) {
         grunt.log.writeln("Found " + errors + " files with errors");      
         done();
     });
-
   });
-
   // ==========================================================================
   // HELPERS
   // ==========================================================================
@@ -78,16 +83,17 @@ module.exports = function(grunt) {
     var tabsize = isNaN(character) ? 1 : character;
     // If tabsize > 1, return something that should be safe to use as a
     // placeholder. \uFFFF repeated 2+ times.
-    return tabsize > 1 && grunt.utils.repeat(tabsize, '\uFFFF');
+    return tabsize > 1 && grunt.util.repeat(tabsize, '\uFFFF');
   }
 
   var tabregex = /\t/g;
 
   // Lint source code with JSHint.
-  grunt.task.registerHelper('lintblame', function(src, options, globals, extraMsg, cb) {
+  function lintblame(src, options, globals, extraMsg, cb) {
+  
     // JSHint sometimes modifies objects you pass in, so clone them.
-    options = grunt.utils._.clone(options);
-    globals = grunt.utils._.clone(globals);
+    options = grunt.util._.clone(options);
+    globals = grunt.util._.clone(globals);
     // Enable/disable debugging if option explicitly set.
     if (grunt.option('debug') !== undefined) {
       options.devel = options.debug = grunt.option('debug');
@@ -118,7 +124,6 @@ module.exports = function(grunt) {
       cb(null);
     } else {
       gitblame(extraMsg, function(err, blameLines) {
-        
         // handle a few error cases better
         if (err) {
             grunt.log.error(err);
@@ -161,17 +166,18 @@ module.exports = function(grunt) {
             // find out the guilty party
             // grunt.log.writeln(evidence); 
             grunt.log.writeln(blameLines[e.line]); 
-  
+              
           } else {
             // Generic "Whoops, too many errors" error.
             grunt.log.error(e.reason);
           }
+          
         });
 
         grunt.log.writeln();
         setTimeout(function() { cb(new Error("You had some problems")); }, 50);
+
       });
     }
-  });
-
+  }
 };

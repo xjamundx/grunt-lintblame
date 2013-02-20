@@ -3,27 +3,27 @@
 A grunt plugin that hooks in git blame to your jshint output.
 
 ## Getting Started
-Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-lintblame`
+Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-lintblame --save-dev`
 
-Then add this line to your project's `grunt.js` gruntfile:
+Then add this line to your project's gruntfile:
 
 ```javascript
 grunt.loadNpmTasks('grunt-lintblame');
 ```
 
-At the top change your `lint: {` to say `lintblame: {`
+Once you have that in place you should just be type to type:
+
+    grunt lintblame
 
 [grunt]: https://github.com/cowboy/grunt
 [getting_started]: https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
 
 ## Documentation
 
-Use exactly as you would the standard lint plugin except with the name `lintblame`. It uses the standard `jshint` options object as well.
+Uses the standard `jshint` options object.
 
-    lintblame: {
-      all: ['grunt.js', 'htdocs/js/v3/widgets/**/*.js']
-    },
     jshint: {
+      files: ['grunt.js', 'htdocs/js/v3/widgets/**/*.js']
       options: {
         curly: false,
         eqeqeq: false,
@@ -32,12 +32,11 @@ Use exactly as you would the standard lint plugin except with the name `lintblam
       }
     }
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
-
 ## Release History
-_(Nothing yet)_
+
+* 0.1.1 - last version support grunt 0.3.x
+* 0.2.0 - first version supporting grunt 0.4
 
 ## License
-Copyright (c) 2012 Jamund Ferguson  
+Copyright (c) 2013 Jamund Ferguson  
 Licensed under the MIT license.
