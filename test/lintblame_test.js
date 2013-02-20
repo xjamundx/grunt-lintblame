@@ -1,4 +1,5 @@
 var grunt = require('grunt');
+var lintblame = require('../tasks/lintblame');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -19,22 +20,17 @@ var grunt = require('grunt');
     test.doesNotThrow(block, [error], [message])
     test.ifError(value)
 */
-
-exports['lintblame'] = {
-  setUp: function(done) {
-    // setup here
-    done();
+exports.lintblame = {
+  'bad': function(test) {    
+    lintblame.lintblame.lint(grunt.file.read("test/data/bad.js"), {}, {}, "test/data/bad.js", function(err) {
+        test.ok(err, "we should error");
+        test.done();
+    });    
   },
-  'helper': function(test) {
-    test.expect(1);
-    // tests here
-    test.ok(true);
-    test.done();
-    
-    // this should work, but doesn't
-    // grunt.helper("lintblame", grunt.file.read("data/awesome.js"), {}, {}, "data/awsome.js", function(err) {
-    //  test.ok(!err, "we should error");
-    //  test.done();
-    // });    
+  'good': function(test) {    
+    lintblame.lintblame.lint(grunt.file.read("test/data/good.js"), {}, {}, "test/data/good.js", function(err) {
+        test.ifError(err, "we should not error");
+        test.done();
+    });    
   }
 };
