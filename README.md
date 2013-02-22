@@ -28,7 +28,11 @@ Uses the standard `jshint` options object.
         curly: false,
         eqeqeq: false,
         immed: false,
-        browser: true
+        browser: true,
+        globals: {
+          define: true,
+          require: true
+        }
       }
     }
 
@@ -36,6 +40,7 @@ Uses the standard `jshint` options object.
 
 * 0.1.1 - last version support grunt 0.3.x
 * 0.2.0 - first version supporting grunt 0.4
+* 0.3.1 - proper multi-task support
 
 ## License
 Copyright (c) 2013 Jamund Ferguson  
