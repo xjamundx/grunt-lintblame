@@ -44,6 +44,9 @@ module.exports = function(grunt) {
     // Extract globals from options.
     var globals = options.globals;
     delete options.globals;
+    delete options.reporter;
+    delete options.reporterOutput;
+    delete options.force;
 
     grunt.verbose.writeflags(options, 'Lintblame options');
     grunt.verbose.writeflags(globals, 'Lintblame globals');
