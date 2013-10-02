@@ -62,9 +62,11 @@ module.exports = function(grunt) {
             next();
         });
     }, function(err) {
-        grunt.log.writeln("Found " + errors + " files with errors");      
-        var failed = errors > 0;
-        done(failed);
+        var passed = (errors === 0) ? true : false;
+        if (!passed) {
+          grunt.log.error("Found " + errors + " files with errors");      
+        }
+        done(passed);
     });
   });
 };
