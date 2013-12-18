@@ -1,7 +1,7 @@
 {
   "name": "grunt-lintblame",
   "description": "Hook git blame into jshint",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "homepage": "",
   "author": {
     "name": "Jamund Ferguson",
@@ -31,11 +31,11 @@
     "grunt": "~0.4.0",
     "gitblame": "0.1.1",
     "async": "0.1.22",
-    "jshint": "~1.1.0"
+    "jshint": "~2.3.0"
   },
   "devDependencies": {
     "grunt": "~0.4.0",
-    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-nodeunit": "~0.1.2"
   },
   "keywords": [
